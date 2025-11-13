@@ -7,7 +7,7 @@ import os
 
 app = FastAPI()
 
-# Tensorflow was unable to load the oriiginal 'model_15_epochs_font_mnist.keras'
+# Tensorflow was unable to load the original 'model_15_epochs_font_mnist.keras'
 # so I trained a new one
 MODEL_PATH = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(MODEL_PATH, "models", "model_15_epochs_both.keras")
@@ -42,6 +42,7 @@ async def read_puzzle_image(file: UploadFile = File(...)):
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = sutils.resize_and_maintain_aspect_ratio(input_image=image, new_width=1000)
+    
     loaded_model = tf.keras.models.load_model(MODEL_PATH)
 
     cells, M, board_image = sutils.get_valid_cells_from_image(image)

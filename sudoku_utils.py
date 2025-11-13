@@ -642,3 +642,27 @@ def generate_solution_image(full_image, board_image, cells_list, solved_board_ar
     annotated[np.where(unwarped_img[:,:,0] == 0)] = (255, 15, 0)
     
     return annotated
+
+
+def grid_to_puzzle_string(grid_array):    
+    """
+    Converts a 9x9 NumPy array representing a Sudoku grid into a single string.
+
+    Parameters
+    ----------
+    grid_array : np.ndarray
+        A 9x9 NumPy array representing the Sudoku grid.
+
+    Returns
+    -------
+    str
+        A single string containing the digits of the Sudoku grid in row-major order.
+    
+    Raises
+    ------
+    ValueError
+        If the input array does not have shape (9, 9).
+    """
+    if grid_array.shape != (9, 9):
+        raise ValueError("Input array must have shape (9, 9)")
+    return "".join(str(item) for item in grid_array.reshape(-1))
