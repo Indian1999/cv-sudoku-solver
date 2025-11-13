@@ -54,6 +54,63 @@ Follow the steps below to use the solver with your own sudoku image:
 
 To run the game, run ```sudoku_game.py```. You can play with the built-in games, or drag-and-drop an image of your own puzzle onto the window.
 
+## API
+The project includes a FastAPI-based REST API for programmatic access to the sudoku solver. The API allows you to upload images of sudoku puzzles and receive the extracted puzzle grid in JSON format.
+
+### Setup
+1. Install API dependencies:
+   ```bash
+   pip install -r api_requirements.txt
+   ```
+
+2. Start the API server:
+   ```bash
+   uvicorn sudoku_api:app --reload
+   ```
+   The API will be available at `http://localhost:8000`
+
+### Endpoints
+
+#### GET `/`
+Health check endpoint that verifies the API is running.
+
+**Response:**
+```json
+{
+  "message": "Sudoku API is running!"
+}
+```
+
+#### POST `/read_puzzle_image`
+Upload an image of a sudoku puzzle and get the extracted puzzle grid.
+
+**Parameters:**
+- `file` (required): Image file containing the sudoku puzzle (multipart/form-data)
+
+**Response (Success):**
+```json
+{
+  "message": "Image read successfully.",
+  "grid": "530070000600195000098000060800060003400803001700020006060000280000419005000080079"
+}
+```
+The `grid` field contains an 81-character string representing the puzzle grid in row-major order (0 for empty cells).
+
+**Response (Failure):**
+```json
+{
+  "message": "Image could not be read."
+}
+```
+
+### Example Usage
+
+Using `curl`:
+```bash
+curl -X POST "http://localhost:8000/read_puzzle_image" \
+  -F "file=@data/sudoku_images/22.jpg"
+```
+
 ## Notes
 There are some images included in this repo for which the solver fails. This can be due to one of two reasons: (1) The image processing component was unable to properly detect the grid, or (2) the deep learning model wrongly classified a digit in the sudoku puzzle, rendering the resulting puzzle unsolvable.
 
