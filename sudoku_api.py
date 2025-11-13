@@ -1,5 +1,4 @@
 from fastapi import FastAPI, File, UploadFile
-import uvicorn
 import numpy as np
 import cv2
 import sudoku_utils as sutils
@@ -12,7 +11,6 @@ app = FastAPI()
 # so I trained a new one
 MODEL_PATH = os.path.dirname(__file__)
 MODEL_PATH = os.path.join(MODEL_PATH, "models", "model_15_epochs_both.keras")
-
 
 @app.get("/")
 async def root():
@@ -34,7 +32,7 @@ async def read_puzzle_image(file: UploadFile = File(...)):
         A dictionary suitable for returning from a FastAPI endpoint. On success, the dictionary has the
         form:
             {"message": "Image read successfully.", "grid": <str>}
-        where <str> is a single string containing the predicted digits for the Sudoku grid in
+        where <str> is a single string containing the predicted digits for the Sudoku grid in (e.g.,"530070000600195000098000060800060003400803001700020006060000280000419005000080079")
         row-major order (e.g., 81 characters for a 9x9 grid). On failure to decode the image, the
         function returns:
             {"message": "Image could not be read."}
