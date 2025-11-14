@@ -9,17 +9,16 @@ import prepare_data as prep_data
 
 def build_model():
     # Define a CNN model for digit classification
-    model = keras.Sequential([
-        keras.Input(shape=(28, 28, 1)),
-        layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-        layers.Flatten(),
-        layers.Dropout(0.5),
-        layers.Dense(9, activation="softmax")]
-    )
-    
+    model = keras.Sequential()
+    model.add(keras.Input(shape=(28, 28, 1)))
+    model.add(layers.Conv2D(32, kernel_size=(3, 3), activation="relu"))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+    model.add(layers.Conv2D(64, kernel_size=(3, 3), activation="relu"))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+    model.add(layers.Flatten())
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(9, activation="softmax"))
+
     model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
     
     return model
@@ -52,7 +51,7 @@ def main(args):
         # Append the current date and time to the filepath so we don't overwrite a model
         now = datetime.now()
         suffix = now.strftime("%d_%m_%Y_%H_%M_%S")
-        model_save_fpath = f"models/model_{suffix}.keras"
+        model_save_fpath = f"models/model_{suffix}.h5"
 
     model.save(model_save_fpath)
 
@@ -64,7 +63,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="both", type=str, help="Choose data to use ('mnist', 'fonts', 'both')")
     ap.add_argument("--exclude_fonts", default=True, type=bool, help="Whether or not to exclude fonts like those in 'data/font_exclude/'")
-    ap.add_argument("--model_save_fpath", default="models/model.keras", type=str)
+    ap.add_argument("--model_save_fpath", default="models/model.h5", type=str)
     ap.add_argument("--batch_size", default="128", type=int)
     ap.add_argument("--epochs", default="10", type=int)
     

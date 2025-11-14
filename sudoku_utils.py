@@ -666,3 +666,40 @@ def grid_to_puzzle_string(grid_array):
     if grid_array.shape != (9, 9):
         raise ValueError("Input array must have shape (9, 9)")
     return "".join(str(item) for item in grid_array.reshape(-1))
+
+def get_predicted_sudoku_grid_onnx(onnx_session, cells):    
+    """
+    Use a model to make predictions about which digit is present in each cell
+    containing a digit. Use these predictions to construct a 2D array 
+    representing the sudoku board, where blank squares are assigned a value of 0.
+    
+    Args:
+        onnx_session: An ONNX runtime session for the digit classification model.
+        cells: A 1D list of cells sorted in the same order as in the puzzle,
+                read left to right, top to bottom.
+            
+    Returns:
+        grid_array: A 2D array representing the sudoku board, containing
+                    the predicted digits and using zeros for empty cells.
+    
+    """
+    
+    digit_images = [
+        np.expand_dims(cell['img'], -1) for cell in cells if cell['contains_digit']
+    ] # -> (28,28,1)
+    if len(digit_images) == 0:
+        return np.zeros((9,9), dtype=int)
+    
+    digit_images = np.array(digit_images).astype(np.float32)
+    digit_images = np.transpose(digit_images,(0,3,1,2))
+
+    input_name = onnx_session.get_inputs()[0].name
+    outputs = onnx_session.run(None, {input_name: digit_images})[0]
+
+    pred_labels = np.argmax(outputs, axis=1) + 1
+    indices = np.where([cell['contains_digit'] for cell in cells])[0]
+    grid_array = np.zeros((81), dtype=int)
+    grid_array[indices] = pred_labels
+    grid_array = grid_array.reshape((9,9))
+
+    return grid_array

@@ -1,0 +1,8 @@
+# Sudoku API Requirements
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+numpy>=1.23
+opencv-python==4.8.0.76
+imutils==0.5.4
+onnxruntime>=1.15.0

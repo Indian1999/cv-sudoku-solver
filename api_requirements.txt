@@ -1,8 +1,0 @@
-# Everything required to run the API
-fastapi==0.104.1
-uvicorn==0.24.0
-python-multipart==0.0.6
-numpy==1.19.2
-tensorflow==2.1.0
-opencv-python==3.3.1
-imutils==0.5.4
