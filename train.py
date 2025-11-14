@@ -51,7 +51,7 @@ def main(args):
         # Append the current date and time to the filepath so we don't overwrite a model
         now = datetime.now()
         suffix = now.strftime("%d_%m_%Y_%H_%M_%S")
-        model_save_fpath = f"models/model_{suffix}.h5"
+        model_save_fpath = f"models/model_{suffix}.keras"
 
     model.save(model_save_fpath)
 
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="both", type=str, help="Choose data to use ('mnist', 'fonts', 'both')")
     ap.add_argument("--exclude_fonts", default=True, type=bool, help="Whether or not to exclude fonts like those in 'data/font_exclude/'")
-    ap.add_argument("--model_save_fpath", default="models/model.h5", type=str)
+    ap.add_argument("--model_save_fpath", default="models/model.keras", type=str)
     ap.add_argument("--batch_size", default="128", type=int)
     ap.add_argument("--epochs", default="10", type=int)
     
