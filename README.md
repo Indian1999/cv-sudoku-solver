@@ -56,6 +56,7 @@ To run the game, run ```sudoku_game.py```. You can play with the built-in games,
 
 ## API
 The project includes a FastAPI-based REST API for programmatic access to the sudoku solver. The API allows you to upload images of sudoku puzzles and receive the extracted puzzle grid in JSON format.
+For the API the deep learning component has been replaced with PyTorch for better compatibility with older CPUs.
 
 ### Setup
 1. Install API dependencies:
