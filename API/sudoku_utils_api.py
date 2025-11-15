@@ -549,7 +549,6 @@ def get_predicted_sudoku_grid_onnx(onnx_session, cells):
 
     return grid_array
 
-
 def grid_to_puzzle_string(grid_array):    
     """
     Converts a 9x9 NumPy array representing a Sudoku grid into a single string.

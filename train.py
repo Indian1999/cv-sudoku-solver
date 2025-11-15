@@ -9,15 +9,16 @@ import prepare_data as prep_data
 
 def build_model():
     # Define a CNN model for digit classification
-    model = keras.Sequential()
-    model.add(keras.Input(shape=(28, 28, 1)))
-    model.add(layers.Conv2D(32, kernel_size=(3, 3), activation="relu"))
-    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
-    model.add(layers.Conv2D(64, kernel_size=(3, 3), activation="relu"))
-    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
-    model.add(layers.Flatten())
-    model.add(layers.Dropout(0.5))
-    model.add(layers.Dense(9, activation="softmax"))
+    model = keras.Sequential([
+        keras.Input(shape=(28, 28, 1)),
+        layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        layers.MaxPooling2D(pool_size=(2, 2)),
+        layers.Flatten(),
+        layers.Dropout(0.5),
+        layers.Dense(9, activation="softmax")]
+    )
 
     model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
     
